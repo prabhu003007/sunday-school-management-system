@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STRANGER SETTINGS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+input,
+select,
+textarea{
+    text-transform: uppercase;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+
+    width:100%;
+    min-height:100vh;
+    overflow-y:auto;
+
+    background:url("{{ url_for('static', filename='images/settings.jpg') }}");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.82);
+}
+
+.panel{
+
+    position:relative;
+
+    z-index:10;
+
+    width:90%;
+    max-width:900px;
+
+    padding:40px;
+
+    background:rgba(0,0,0,.45);
+
+    border:2px solid #00d9ff;
+
+    box-shadow:
+    0 0 20px #00d9ff,
+    inset 0 0 20px rgba(0,217,255,.15);
+}
+
+.delete-branch{
+    margin-left:15px;
+}
+.title{
+
+    text-align:center;
+
+    color:#00d9ff;
+
+    font-size:34px;
+
+    margin-bottom:35px;
+
+    letter-spacing:4px;
+
+    text-shadow:
+    0 0 15px #00d9ff;
+}
+
+.section{
+
+    margin-bottom:35px;
+}
+
+.section-title{
+
+    color:#00d9ff;
+
+    font-size:18px;
+
+    margin-bottom:15px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(0,217,255,.35);
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 0;
+
+    color:white;
+}
+
+.value{
+
+    color:#00ff88;
+
+    text-shadow:
+    0 0 10px rgba(0,255,136,.4);
+}
+
+.button-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin-top:25px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    padding:14px 30px;
+
+    background:transparent;
+
+    border:2px solid #00d9ff;
+
+    color:#00d9ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    letter-spacing:1px;
+}
+
+.btn:hover{
+
+    background:#00d9ff;
+
+    color:black;
+
+    box-shadow:
+    0 0 20px #00d9ff;
+}
+
+input{
+
+    padding:10px;
+
+    background:black;
+
+    color:#00d9ff;
+
+    border:1px solid #00d9ff;
+
+    width:250px;
+
+}
+
+.edit-mode{
+    display:none;
+}
+
+.view-mode{
+    color:#00ff88;
+    text-shadow:
+    0 0 10px rgba(0,255,136,.4);
+}
+@media(max-width:768px){
+
+    .panel{
+
+        width:95%;
+
+        padding:25px;
+    }
+
+    .row{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:8px;
+    }
+
+    .button-area{
+
+        flex-direction:column;
+    }
+}
+.branch-name{
+    color:#00ff88;
+    text-shadow:0 0 10px rgba(0,255,136,.4);
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="panel">
+
+    <h1 class="title">
+        SUNDAY SCHOOL CONTROL PANEL
+    </h1>
+
+    <div class="section">
+
+        <div class="section-title">
+            SYSTEM STATUS
+        </div>
+
+        <div class="row">
+            <span>DATABASE STATUS</span>
+            <span class="value">CONNECTED</span>
+        </div>
+
+        <div class="row">
+            <span>TOTAL STUDENTS</span>
+            <span class="value">
+                {{ record_count }}
+            </span>
+        </div>
+
+        <div class="row">
+            <span>SERVER STATUS</span>
+            <span class="value">ONLINE</span>
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            GENERAL SETTINGS
+        </div>
+
+        <div class="row">
+
+            <span>ACADEMIC YEAR</span>
+
+            <span class="view-mode">
+                {{ settings.academic_year }}
+            </span>
+
+            <input
+            class="edit-mode"
+            id="academic_year"
+            value="{{ settings.academic_year }}"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <span>ATTENDANCE DAYS</span>
+
+            <span class="view-mode">
+                {{ settings.attendance_days }}
+            </span>
+
+            <input
+            type="text"
+            class="edit-mode"
+            id="attendance_days"
+            value="{{ settings.attendance_days }}"
+            >
+
+        </div>
+
+        <div class="row">
+
+            <span>CENTER NAME</span>
+
+            <span class="view-mode">
+                {{ settings.center_name }}
+            </span>
+
+            <input
+            class="edit-mode"
+            id="center_name"
+            value="{{ settings.center_name }}"
+           >
+
+        </div>
+
+        <div class="row">
+
+            <span>ASSEMBLY NAME</span>
+
+            <span class="view-mode">
+                {{ settings.assembly_name }}
+            </span>
+
+            <input
+            class="edit-mode"
+            id="assembly_name"
+            value="{{ settings.assembly_name }}"
+           >
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            CLASS WISE STUDENT COUNT
+        </div>
+
+        {% for item in class_counts %}
+
+        <div class="row">
+
+            <span>
+                {{ item.class }} STD
+            </span>
+
+            <span class="value">
+                {{ item.count }}
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            BRANCH MANAGEMENT
+        </div>
+
+       
+<div id="branch_container">
+
+{% for branch in branches %}
+
+<div class="row">
+
+    <span class="branch-name">
+        {{ branch.branch_name }}
+    </span>
+
+    <span class="value">
+        {{ branch.student_count }} STUDENTS
+    </span>
+
+    <button
+    class="btn edit-mode delete-branch"
+    data-id="{{ branch._id }}"
+    style="display:none;">
+
+        DELETE
+
+    </button>
+
+</div>
+
+{% endfor %}
+
+</div>
+                       <div
+class="edit-mode"
+style="margin-top:20px;margin-bottom:10px;">
+
+            <input
+            type="text"
+            id="new_branch"
+            placeholder="ENTER NEW BRANCH NAME">
+
+           
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            SECURITY
+        </div>
+
+        <div class="row">
+
+            <span>
+                ACCESS CODE
+            </span>
+
+            <span class="value">
+                CONFIGURED
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="button-area">
+
+        <button
+        class="btn"
+        id="edit_btn">
+
+            EDIT SETTINGS
+
+        </button>
+
+      <button
+class="btn"
+id="save_btn"
+style="display:none;">
+
+            SAVE SETTINGS
+
+        </button>
+
+        <button
+        class="btn"
+        onclick="window.location.href='/change_password'">
+
+            CHANGE PASSWORD
+
+        </button>
+
+        <button
+        class="btn"
+        onclick="window.location.href='/options'">
+
+            BACK
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+document.querySelectorAll('input[type="text"], textarea')
+.forEach(field=>{
+    field.addEventListener("input",function(){
+        this.value=this.value.toUpperCase();
+    });
+});
+
+const editBtn=document.getElementById("edit_btn");
+const saveBtn=document.getElementById("save_btn");
+
+editBtn.addEventListener("click",function(){
+
+    document.querySelectorAll(".view-mode")
+    .forEach(x=>x.style.display="none");
+
+    document.querySelectorAll(".edit-mode")
+    .forEach(x=>{
+
+        if(x.classList.contains("delete-branch")){
+            x.style.display="inline-block";
+        }
+        else{
+            x.style.display="block";
+        }
+
+    });
+
+    editBtn.style.display="none";
+    saveBtn.style.display="inline-block";
+
+});
+
+saveBtn.addEventListener("click",async function(){
+
+    const data={
+
+        academic_year:
+        document.getElementById("academic_year").value,
+
+        attendance_days:
+        document.getElementById("attendance_days").value,
+
+        center_name:
+        document.getElementById("center_name").value,
+
+        assembly_name:
+        document.getElementById("assembly_name").value
+
+    };
+
+    const response=await fetch(
+        "/save_settings",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        }
+    );
+
+    const result=await response.json();
+
+    if(result.success){
+        location.reload();
+    }
+
+});
+
+async function deleteBranch(id,button){
+
+    const response=await fetch(
+        "/delete_branch/"+id,
+        {
+            method:"DELETE"
+        }
+    );
+
+    const result=await response.json();
+
+    if(result.success){
+        button.closest(".row").remove();
+    }
+
+}
+
+document.addEventListener(
+"click",
+async function(e){
+
+    if(
+        e.target.classList.contains(
+        "delete-branch"
+        )
+    ){
+
+        const id=e.target.dataset.id;
+
+        if(id){
+            await deleteBranch(
+                id,
+                e.target
+            );
+        }
+
+    }
+
+});
+
+document
+.getElementById("new_branch")
+.addEventListener(
+"keydown",
+async function(e){
+
+    if(e.key==="Enter"){
+
+        e.preventDefault();
+
+        const branchName=
+        this.value.trim();
+
+        if(branchName===""){
+            return;
+        }
+
+        const response=
+        await fetch(
+            "/add_branch",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    branch_name:branchName
+                })
+            }
+        );
+
+        const result=
+        await response.json();
+
+        if(result.success){
+
+            document
+            .getElementById(
+            "branch_container"
+            )
+            .insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="row">
+
+                <span class="branch-name">
+                    ${branchName.toUpperCase()}
+                </span>
+
+                <button
+                class="btn edit-mode delete-branch"
+                data-id="${result.id}"
+                style="display:inline-block">
+
+                    DELETE
+
+                </button>
+
+            </div>
+            `
+            );
+
+            this.value="";
+            this.focus();
+
+        }
+
+    }
+
+});
+
+const fields=
+Array.from(
+document.querySelectorAll("input")
+);
+
+fields.forEach(
+(field,index)=>{
+
+field.addEventListener(
+"keydown",
+function(e){
+
+    if(
+        e.key==="Enter" &&
+        this.id!=="new_branch"
+    ){
+
+        e.preventDefault();
+
+        const next=
+        fields[index+1];
+
+        if(next){
+            next.focus();
+        }
+
+    }
+
+});
+
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIEW ALL STUDENTS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+body{
+
+min-height:100vh;
+
+background:url("{{ url_for('static', filename='images/search_student.jpg') }}");
+
+background-size:cover;
+background-position:center;
+
+overflow-y:auto;
+}
+
+.overlay{
+
+position:fixed;
+inset:0;
+
+background:rgba(0,0,0,.70);
+}
+
+.container{
+
+position:relative;
+z-index:10;
+
+width:95%;
+max-width:1200px;
+
+margin:30px auto;
+}
+
+.title{
+
+text-align:center;
+
+color:#00d9ff;
+
+font-size:38px;
+
+margin-bottom:25px;
+
+text-shadow:
+0 0 10px #00d9ff,
+0 0 25px #00d9ff;
+}
+
+.header-row,
+.student-row{
+
+display:grid;
+
+grid-template-columns:
+3fr 1fr 1fr 1fr 2fr 2fr ;
+
+gap:10px;
+
+padding:15px;
+
+margin-bottom:10px;
+
+border:1px solid #00d9ff;
+}
+
+.header-row{
+
+background:rgba(0,217,255,.15);
+
+color:#00d9ff;
+
+font-weight:bold;
+}
+
+.student-row{
+
+background:rgba(0,0,0,.45);
+
+color:white;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.student-row:hover{
+
+background:rgba(0,217,255,.15);
+
+box-shadow:0 0 15px #00d9ff;
+}
+
+.cell{
+
+text-align:center;
+word-break:break-word;
+}
+
+.button-area{
+
+display:flex;
+justify-content:center;
+
+margin-top:25px;
+}
+
+.btn{
+
+padding:14px 35px;
+
+border:2px solid #00d9ff;
+
+background:transparent;
+
+color:#00d9ff;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.btn:hover{
+
+background:#00d9ff;
+
+color:black;
+}
+
+@media(max-width:900px){
+
+.header-row{
+display:none;
+}
+
+.student-row{
+
+grid-template-columns:1fr;
+
+text-align:center;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+<h1 class="title">
+ALL STUDENT RECORDS
+</h1>
+
+<div class="header-row">
+
+<div class="cell">NAME</div>
+<div class="cell">LAST NAME</div>
+<div class="cell">CLASS</div>
+<div class="cell">GENDER</div>
+<div class="cell">PLACE</div>
+<div class="cell">PARENT NAME</div>
+
+</div>
+
+{% for student in students %}
+
+<div
+class="student-row"
+onclick="window.location.href='/student/{{ student._id }}'">
+
+<div class="cell">{{ student.name }}</div>
+<div class="cell">{{ student.last_name }}</div>
+<div class="cell">{{ student.std }}</div>
+<div class="cell">{{ student.gender }}</div>
+<div class="cell">{{ student.place }}</div>
+<div class="cell">{{ student.parent_name }}</div>
+
+</div>
+
+{% endfor %}
+
+<div class="button-area">
+
+<button
+class="btn"
+onclick="window.location.href='/options'">
+
+BACK
+
+</button>
+
+</div>
+
+</div>
+
+</body>
+</html>

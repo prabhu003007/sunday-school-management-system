@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SEARCH STUDENT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:url("{{ url_for('static', filename='images/search_student.jpg') }}");
+
+    background-size:cover;
+    background-position:center;
+
+    overflow-x:hidden;
+}
+
+.overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+}
+
+.container{
+
+    position:relative;
+    z-index:10;
+
+    width:90%;
+    max-width:1000px;
+
+    margin:40px auto;
+}
+
+.title{
+
+    text-align:center;
+
+    color:#00d9ff;
+
+    margin-bottom:30px;
+
+    text-shadow:
+    0 0 10px #00d9ff,
+    0 0 25px #00d9ff;
+}
+
+/* SEARCH BOX */
+
+.search-box{
+
+    margin-bottom:30px;
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:18px;
+
+    background:rgba(0,0,0,.45);
+
+    border:2px solid #00d9ff;
+
+    color:#00d9ff;
+
+    font-size:18px;
+
+    text-transform:uppercase;
+
+    outline:none;
+
+    box-shadow:
+    0 0 10px rgba(0,217,255,.3);
+}
+
+.search-box input:focus{
+
+    box-shadow:
+    0 0 15px #00d9ff;
+}
+.header-row{
+
+background:rgba(0,217,255,.15);
+
+color:#00d9ff;
+
+font-weight:bold;
+}
+/* RESULT CARD */
+
+.result-card{
+
+    display:grid;
+
+    grid-template-columns:
+2fr 2fr 1fr 1fr 2fr 2fr;
+
+    align-items:center;
+
+    padding:18px 25px;
+
+    margin-bottom:15px;
+
+    background:rgba(0,0,0,.45);
+
+    border:1px solid #00d9ff;
+
+    color:#00d9ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 0 8px rgba(0,217,255,.3);
+}
+
+.header-row{
+
+    display:grid;
+
+    grid-template-columns:
+    2fr 2fr 1fr 1fr 2fr 2fr;
+
+    align-items:center;
+
+    padding:18px 25px;
+
+    margin-bottom:15px;
+
+    background:rgba(0,217,255,.15);
+
+    border:1px solid #00d9ff;
+
+    color:#00d9ff;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    box-shadow:
+    0 0 8px rgba(0,217,255,.3);
+}
+
+.header-row span{
+
+    text-align:center;
+}
+.result-card:hover{
+
+    transform:translateX(8px);
+
+    background:
+    rgba(0,217,255,.12);
+
+    box-shadow:
+    0 0 20px #00d9ff;
+}
+
+.result-card span{
+
+    text-align:center;
+}
+
+/* BUTTONS */
+
+.button-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:25px;
+}
+
+.btn{
+
+    padding:14px 35px;
+
+    background:transparent;
+
+    border:2px solid #00d9ff;
+
+    color:#00d9ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn:hover{
+
+    background:#00d9ff;
+
+    color:black;
+
+    box-shadow:
+    0 0 20px #00d9ff;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .result-card{
+
+        grid-template-columns:1fr;
+
+        gap:10px;
+
+        text-align:center;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+    <h1 class="title">
+        SEARCH STUDENT
+    </h1>
+
+    <div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="SEARCH STUDENT BY NAME">
+
+</div>
+   
+       
+<div id="results"></div>
+
+<div class="button-area">
+
+    <button
+    class="btn"
+    onclick="window.location.href='/options'">
+
+        BACK
+
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const searchInput =
+document.getElementById("searchInput");
+
+searchInput.addEventListener(
+"input",
+async function(){
+
+    const search =
+    this.value.trim();
+
+    const resultsDiv =
+    document.getElementById("results");
+
+    if(search === ""){
+
+        resultsDiv.innerHTML = "";
+        return;
+    }
+
+    try{
+
+        const response =
+        await fetch(
+            "/search_api?search=" +
+            encodeURIComponent(search)
+        );
+
+        const data =
+        await response.json();
+
+        let html = "";
+
+        if(data.length === 0){
+
+            html = `
+
+            <div style="
+                text-align:center;
+                color:#ff4444;
+                font-size:22px;
+                padding:25px;
+                margin-top:10px;
+                border:1px solid #ff4444;
+                background:rgba(255,0,0,.08);
+                box-shadow:
+                0 0 10px rgba(255,0,0,.5),
+                inset 0 0 10px rgba(255,0,0,.2);
+            ">
+
+                STUDENT NOT FOUND
+
+            </div>
+
+            `;
+        }
+        else{
+
+ html = `
+
+    <div class="header-row">
+        <span>NAME</span>
+        <span>LAST NAME</span>
+        <span>CLASS</span>
+        <span>GENDER</span>
+<span>PARENT NAME</span>
+        <span>PLACE</span>
+        
+
+    </div>
+
+    `;
+            data.forEach(function(student){
+
+                html += `
+
+
+                <div class="result-card"
+                     onclick="openPerson('${student.id}')">
+
+                    <span>${student.name}</span>
+                    <span>${student.last_name}</span>
+                    <span>${student.std}</span>
+<span>${student.gender}</span>
+<span>${student.parent_name}</span>
+                    <span>${student.place}</span>
+
+                    
+                </div>
+
+                `;
+
+            });
+
+        }
+
+        resultsDiv.innerHTML = html;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        resultsDiv.innerHTML = `
+
+        <div style="
+            text-align:center;
+            color:#ff4444;
+            padding:25px;
+        ">
+
+            SEARCH ERROR
+
+        </div>
+
+        `;
+    }
+
+});
+
+function openPerson(id){
+
+    window.location.href =
+    "/student/" + id;
+
+}
+
+</script>
+</body>
+</html>

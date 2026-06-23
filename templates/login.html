@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPM Sunday School Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Orbitron',sans-serif;
+min-height:100vh;
+background:url("{{ url_for('static', filename='images/login.jpg') }}");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+}
+.terminal{
+width:90%;
+max-width:750px;
+background:rgba(0,0,0,.65);
+border:2px solid #FFD700;
+padding:30px;
+border-radius:15px;
+backdrop-filter:blur(6px);
+}
+.title{
+font-family:'Cinzel',serif;
+text-align:center;
+font-size:42px;
+color:#FFD700;
+margin-bottom:20px;
+}
+.boot-screen{
+
+    border:2px solid #FFD700;
+
+    background:rgba(0,0,0,.75);
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    height:auto;
+
+    text-align:center;
+}
+
+.boot-content{
+
+    animation:none;
+}
+
+.verse-title{
+
+    color:#FFD700;
+
+    font-size:18px;
+
+    letter-spacing:4px;
+
+    margin-bottom:20px;
+}
+
+.verse-text{
+
+    color:white;
+
+    font-size:22px;
+
+    line-height:1.8;
+
+    font-family:'Cinzel',serif;
+
+    margin-bottom:15px;
+}
+
+.verse-ref{
+
+    color:#F5DEB3;
+
+    font-size:16px;
+
+    letter-spacing:3px;
+}.label{
+text-align:center;
+color:#FFD700;
+margin-bottom:10px;
+}
+.input-box{
+width:100%;
+padding:15px;
+background:#000;
+border:2px solid #FFD700;
+color:#FFD700;
+text-align:center;
+font-size:18px;
+}
+.status{
+margin-top:15px;
+padding:10px;
+text-align:center;
+background:#000;
+color:#F5DEB3;
+}
+.btn{
+width:100%;
+margin-top:25px;
+padding:15px;
+background:transparent;
+border:2px solid #FFD700;
+color:#FFD700;
+cursor:pointer;
+font-size:18px;
+}
+.btn:hover{
+background:#FFD700;
+color:#000;
+}
+.warning{
+margin-top:15px;
+text-align:center;
+color:#F5DEB3;
+}
+.message{text-align:center;margin-top:15px;font-weight:bold;}
+.success{color:#7CFC00;}
+.failed{color:#ff6666;}
+</style>
+</head>
+<body>
+<div class="terminal">
+<div class="title">TPM SUNDAY SCHOOL</div>
+
+<div class="boot-screen">
+
+<div class="boot-content">
+
+<div class="verse-title">
+
+BIBLE VERSE
+
+</div>
+
+<div class="verse-text">
+
+"TRAIN UP A CHILD IN THE WAY HE SHOULD GO:<br>
+AND WHEN HE IS OLD, HE WILL NOT DEPART FROM IT."
+
+</div>
+
+<div class="verse-ref">
+
+PROVERBS 22:6
+
+</div>
+
+</div>
+
+</div>
+<div class="label">ACCESS CODE</div>
+
+<input type="password" id="accessCode" class="input-box" placeholder="ENTER ACCESS CODE">
+
+<div class="status">● SUNDAY SCHOOL PORTAL READY</div>
+
+<button class="btn" onclick="authenticate()">LOGIN</button>
+
+<div id="message" class="message"></div>
+
+<div class="warning">
+AUTHORIZED SUNDAY SCHOOL STAFF ONLY
+</div>
+</div>
+
+<script>
+
+
+async function authenticate(){
+
+    const code =
+    document
+    .getElementById("accessCode")
+    .value
+    .trim();
+
+    const msg =
+    document
+    .getElementById("message");
+
+    try{
+
+        const response =
+        await fetch(
+            "/verify_access_code",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    access_code:code
+                })
+            }
+        );
+
+        const data =
+        await response.json();
+
+        if(data.success){
+
+            msg.className =
+            "message success";
+
+            msg.innerHTML =
+            "LOGIN SUCCESSFUL";
+
+            setTimeout(()=>{
+
+                window.location.href =
+                "/index";
+
+            },1000);
+
+        }
+        else{
+
+            msg.className =
+            "message failed";
+
+            msg.innerHTML =
+            "INVALID ACCESS CODE";
+
+        }
+
+    }
+    catch(error){
+
+        msg.className =
+        "message failed";
+
+        msg.innerHTML =
+        "CONNECTION ERROR";
+
+        console.log(error);
+
+    }
+
+}
+
+document
+.getElementById("accessCode")
+.addEventListener(
+"keydown",
+function(e){
+
+    if(e.key==="Enter"){
+
+        authenticate();
+
+    }
+
+});
+
+</script>
+</body>
+</html>

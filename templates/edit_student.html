@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EDIT RECORD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+
+     width:100%;
+    min-height:100vh;
+
+    overflow-y:auto;
+
+    background:url("{{ url_for('static', filename='images/general.jpg') }}");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.82);
+}
+
+.panel{
+
+    position:relative;
+
+    z-index:10;
+
+    width:95vw;
+    max-width:1000px;
+
+    background:rgba(0,0,0,.45);
+
+    border:2px solid #00d9ff;
+
+    padding:30px;
+
+    box-shadow:
+    0 0 25px #00d9ff,
+    inset 0 0 20px rgba(0,217,255,.15);
+}
+
+.title{
+
+    text-align:center;
+
+    color:#00d9ff;
+
+    font-size:32px;
+
+    margin-bottom:30px;
+
+    letter-spacing:4px;
+
+    text-shadow:
+    0 0 15px #00d9ff;
+}
+
+.form-group{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-bottom:18px;
+}
+
+.form-group label{
+
+    width:180px;
+
+    color:#00d9ff;
+
+    font-size:14px;
+}
+
+.form-group input,
+.form-group textarea{
+
+    flex:1;
+
+    background:#000;
+
+    border:1px solid #00d9ff;
+
+    color:white;
+
+    padding:12px;
+
+    outline:none;
+
+    text-transform:uppercase;
+}
+
+.form-group textarea{
+
+    resize:none;
+
+    height:80px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+
+    box-shadow:
+    0 0 10px #00d9ff;
+}
+
+select{
+
+    flex:1;
+
+    width:100%;
+
+    padding:12px;
+
+    background:rgba(0,0,0,.5);
+
+    border:1px solid #00d9ff;
+
+    color:#00d9ff;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:16px;
+
+    outline:none;
+
+    cursor:pointer;
+
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
+    box-shadow:none;
+}
+
+
+select option{
+
+    background:#000;
+
+    color:#00d9ff;
+}
+
+.button-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin-top:30px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    padding:14px 30px;
+
+    border:2px solid #00d9ff;
+
+    background:transparent;
+
+    color:#00d9ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn:hover{
+
+    background:#00d9ff;
+
+    color:black;
+}
+
+.cancel{
+
+    border-color:#ff4444;
+    color:#ff4444;
+}
+
+.cancel:hover{
+
+    background:#ff4444;
+    color:white;
+}
+
+@media(max-width:768px){
+
+    body{
+        overflow:auto;
+    }
+
+    .panel{
+        width:95%;
+        margin:20px;
+    }
+
+    .form-group{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+    .form-group label{
+
+        width:100%;
+    }
+
+    .form-group input,
+    .form-group textarea{
+
+        width:100%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="panel">
+
+<h1 class="title">
+EDIT INTELLIGENCE RECORD
+</h1>
+
+<form method="POST">
+
+<div class="form-group">
+<label>NAME</label>
+<input
+type="text"
+name="name"
+id="name"
+value="{{ student.name }}"
+required>
+</div>
+<div class="form-group">
+
+<label>LAST NAME</label>
+
+<input
+type="text"
+name="last_name"
+value="{{ student.last_name }}"
+>
+
+</div>
+<div class="form-group">
+<label>DATE OF BIRTH</label>
+<input
+type="date"
+name="dob"
+id="dob"
+value="{{ student.dob }}"
+>
+</div>
+
+<div class="form-group">
+<label>AGE</label>
+<input
+type="number"
+name="age"
+id="age"
+value="{{ student.age }}"
+readonly>
+</div>
+<div class="form-group">
+
+<label>GENDER</label>
+
+<select
+name="gender"
+required>
+
+    <option value="MALE"
+    {% if student.gender == "MALE" %}selected{% endif %}>
+        MALE
+    </option>
+
+    <option value="FEMALE"
+    {% if student.gender == "FEMALE" %}selected{% endif %}>
+        FEMALE
+    </option>
+
+    
+</select>
+
+</div>
+
+<div class="form-group">
+    <label>CLASS</label>
+
+    <select
+    id="std"
+    name="std"
+    required>
+
+        {% for i in range(1,12) %}
+
+        <option
+        value="{{ i }}"
+        {% if student.std == i|string %}
+        selected
+        {% endif %}>
+
+            {{ i }} STD
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+<div class="form-group">
+<label>BRANCH</label>
+
+<select name="place" required>
+
+{% for branch in branches %}
+
+<option
+value="{{ branch.branch_name }}"
+{% if student.place == branch.branch_name %}
+selected
+{% endif %}
+>
+
+{{ branch.branch_name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+</div>
+<div class="form-group">
+
+    <label>PARENT NAME</label>
+
+    <input
+    type="text"
+    name="parent_name"
+    value="{{ student.parent_name }}">
+
+</div>
+<div class="form-group">
+<label>DATE OF ADMISSION</label>
+<input
+type="date"
+id="admission_date"
+name="admission_date"
+value="{{ student.admission_date }}"
+>
+</div>
+<div class="form-group">
+    <label>CLASS OF ADMISSION</label>
+    <select
+    id="admission_class"
+    name="admission_class"
+    >
+
+        {% for i in range(1,12) %}
+
+        <option
+        value="{{ i }}"
+        {% if student.admission_class == i|string %}
+        selected
+        {% endif %}>
+
+            {{ i }} STD
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+<div class="button-area">
+
+<button
+type="submit"
+class="btn">
+
+SAVE CHANGES
+
+</button>
+
+<button
+type="button"
+class="btn cancel"
+onclick="window.location.href='/student/{{ student._id }}'">
+
+CANCEL
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+/* AUTO UPPERCASE */
+
+document
+.querySelectorAll(
+'input[type="text"], textarea'
+)
+.forEach(field => {
+
+    field.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+        this.value.toUpperCase();
+
+    });
+
+});
+
+/* DOB VALIDATION */
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+document
+.getElementById("dob")
+.setAttribute(
+"max",
+today
+);
+
+document
+.getElementById("dob")
+.addEventListener(
+"change",
+function(){
+
+    const dob =
+    new Date(this.value);
+
+    const today =
+    new Date();
+
+    if(dob > today){
+
+        alert(
+        "DATE OF BIRTH CANNOT BE GREATER THAN TODAY"
+        );
+
+        this.value = "";
+
+        document
+        .getElementById("age")
+        .value = "";
+
+        return;
+    }
+
+    let age =
+    today.getFullYear()
+    -
+    dob.getFullYear();
+
+    const month =
+    today.getMonth()
+    -
+    dob.getMonth();
+
+    if(
+        month < 0 ||
+        (
+            month === 0 &&
+            today.getDate()
+            <
+            dob.getDate()
+        )
+    ){
+        age--;
+    }
+
+    document
+    .getElementById("age")
+    .value = age;
+
+});
+
+document
+.querySelector("form")
+.addEventListener(
+"submit",
+function(e){
+
+    const dob =
+    document.getElementById("dob").value;
+
+    const admissionDate =
+    document.getElementById("admission_date").value;
+
+    const std =
+    parseInt(
+        document.getElementById("std").value
+    );
+
+    const admissionClass =
+    parseInt(
+        document.getElementById("admission_class").value
+    );
+
+    const today =
+    new Date();
+
+    /* ADMISSION DATE > DOB */
+
+    if(
+        dob &&
+        admissionDate &&
+        new Date(admissionDate) < new Date(dob)
+    ){
+
+        alert(
+        "ADMISSION DATE CANNOT BE EARLIER THAN DATE OF BIRTH"
+        );
+
+        e.preventDefault();
+        return;
+    }
+
+    /* ADMISSION DATE <= TODAY */
+
+    if(
+        admissionDate &&
+        new Date(admissionDate) > today
+    ){
+
+        alert(
+        "ADMISSION DATE CANNOT BE GREATER THAN TODAY"
+        );
+
+        e.preventDefault();
+        return;
+    }
+
+    /* ADMISSION CLASS <= CURRENT CLASS */
+
+    if(
+        !isNaN(std) &&
+        !isNaN(admissionClass) &&
+        admissionClass > std
+    ){
+
+        alert(
+        "CLASS OF ADMISSION CANNOT BE GREATER THAN CURRENT CLASS"
+        );
+
+        e.preventDefault();
+        return;
+    }
+
+});
+</script>
+</body>
+</html>
+

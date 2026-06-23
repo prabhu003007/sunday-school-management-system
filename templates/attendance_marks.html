@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Attendance & Marks</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+    background:#050b12;
+    color:#00d9ff;
+    padding:20px;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:20px;
+    text-shadow:0 0 15px #00d9ff;
+}
+
+.search-box{
+    margin-bottom:15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:12px;
+    background:#000;
+    border:1px solid #00d9ff;
+    color:#00d9ff;
+}
+
+.table-wrap{
+    width:100%;
+    overflow:hidden;
+    border:1px solid #00d9ff;
+    box-shadow:0 0 15px rgba(0,217,255,.25);
+}
+
+table{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid rgba(0,217,255,.30);
+    padding:5px;
+    text-align:center;
+}
+
+th{
+    background:rgba(0,217,255,.15);
+}
+
+.col-name{width:15%}
+.col-last{width:10%}
+.col-class{width:5%}
+
+.col-num{width:5%}
+.col-smv{width:5%}
+.col-att{width:5%}
+
+.col-grade{width:14%}
+
+.col-edit{width:6%}
+.col-save{width:6%}
+
+input,
+select{
+
+    width:100%;
+    background:#000;
+    color:#00d9ff;
+    border:1px solid #00d9ff;
+    padding:5px;
+    text-align:center;
+
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{
+
+    -webkit-appearance:none;
+    margin:0;
+
+}
+
+input[type=number]{
+
+    -moz-appearance:textfield;
+    appearance:textfield;
+
+}
+
+.save-btn,
+.edit-btn,
+.save_all_btn,
+.btn{
+
+    padding:8px;
+    width:100%;
+    cursor:pointer;
+    background:transparent;
+
+}
+
+.save-btn{
+
+    border:1px solid #00ff88;
+    color:#00ff88;
+
+}
+
+.edit-btn{
+
+    border:1px solid #ffaa00;
+    color:#ffaa00;
+
+}
+
+.save_all_btn,
+.btn{
+
+    border:1px solid #00d9ff;
+    color:#00d9ff;
+
+}
+
+.button-area{
+
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+
+}
+
+.view-mode{
+
+    display:block;
+    color:#00d9ff;
+    font-weight:bold;
+    padding:5px;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 class="title">
+ATTENDANCE & MARKS MANAGEMENT
+</h1>
+
+<script>
+const TOTAL_DAYS =
+{{ attendance_days }};
+</script>
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="SEARCH STUDENT">
+
+</div>
+
+
+<div class="table-wrap">
+
+<table id="marksTable">
+
+<thead>
+
+<tr>
+
+<th class="col-name">NAME</th>
+<th class="col-last">LAST NAME</th>
+<th class="col-class">CLASS</th>
+
+<th class="col-num">1ST</th>
+<th class="col-num">2ND</th>
+<th class="col-num">3RD</th>
+<th class="col-smv">SMV</th>
+
+<th class="col-att">ATT. DAYS</th>
+<th class="col-att">ATT %</th>
+
+<th class="col-grade">GRADE</th>
+
+<th class="col-edit">EDIT</th>
+<th class="col-save">SAVE</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for student in students %}
+
+<tr
+data-id="{{ student._id }}"
+data-locked="{{ student.locked }}">
+
+<td>{{ student.name }}</td>
+
+<td>{{ student.last_name }}</td>
+
+<td>{{ student.std }}</td>
+
+<td>
+<input
+type="number"
+class="m1"
+min="0"
+max="100"
+value="{{ student.first }}">
+</td>
+
+<td>
+<input
+type="number"
+class="m2"
+min="0"
+max="100"
+value="{{ student.second }}">
+</td>
+
+<td>
+<input
+type="number"
+class="m3"
+min="0"
+max="100"
+value="{{ student.third }}">
+</td>
+
+<td>
+<input
+type="number"
+class="smv"
+min="0"
+max="110"
+value="{{ student.smv }}">
+</td>
+
+<td>
+<input
+type="number"
+class="att"
+value="{{ student.attendance_days }}">
+</td>
+
+<td>
+<input
+type="number"
+class="attp"
+readonly
+value="{{ student.attendance_percentage }}">
+</td>
+<td>
+
+<select>
+
+<option value=""
+{% if student.grade=="" %}
+selected
+{% endif %}
+>
+SELECT
+</option>
+
+<option value="PASSED"
+{% if student.grade=="PASSED" %}
+selected
+{% endif %}
+>
+PASSED
+</option>
+
+<option value="PROMOTED"
+{% if student.grade=="PROMOTED" %}
+selected
+{% endif %}
+>
+PROMOTED
+</option>
+
+<option value="FIRST IN CENTER"
+{% if student.grade=="FIRST IN CENTER" %}
+selected
+{% endif %}
+>
+FIRST IN CENTER
+</option>
+
+<option value="SECOND IN CENTER"
+{% if student.grade=="SECOND IN CENTER" %}
+selected
+{% endif %}
+>
+SECOND IN CENTER
+</option>
+
+<option value="THIRD IN CENTER"
+{% if student.grade=="THIRD IN CENTER" %}
+selected
+{% endif %}
+>
+THIRD IN CENTER
+</option>
+
+<option value="SPECIAL PRIZE"
+{% if student.grade=="SPECIAL PRIZE" %}
+selected
+{% endif %}
+>
+SPECIAL PRIZE
+</option>
+
+<option value="ENCOURAGE PRIZE"
+{% if student.grade=="ENCOURAGE PRIZE" %}
+selected
+{% endif %}
+>
+ENCOURAGE PRIZE
+</option>
+
+<option value="ABSENT"
+{% if student.grade=="ABSENT" %}
+selected
+{% endif %}
+>
+ABSENT
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<button class="edit-btn">
+EDIT
+</button>
+
+</td>
+
+<td>
+
+<button class="save-btn">
+SAVE
+</button>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="button-area">
+
+<button
+id="save_all_btn"
+class="save_all_btn">
+
+SAVE ALL CHANGES
+
+</button>
+
+<button
+class="btn"
+onclick="window.location.href='/options'">
+
+BACK
+
+</button>
+
+</div>
+
+<script>
+
+document.getElementById(
+"searchInput"
+).addEventListener(
+"input",
+function(){
+
+let value =
+this.value.toUpperCase();
+
+document.querySelectorAll(
+"#marksTable tbody tr"
+).forEach(row=>{
+
+row.style.display =
+
+row.innerText
+.toUpperCase()
+.includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+document.querySelectorAll(
+"#marksTable tbody tr"
+).forEach(row=>{
+
+const m1 =
+row.querySelector(".m1");
+
+const m2 =
+row.querySelector(".m2");
+
+const m3 =
+row.querySelector(".m3");
+
+const smv =
+row.querySelector(".smv");
+
+const att =
+row.querySelector(".att");
+
+const attp =
+row.querySelector(".attp");
+
+function validate(){
+
+    if(Number(m1.value) > 100){
+        m1.value = 100;
+    }
+
+    if(Number(m2.value) > 100){
+        m2.value = 100;
+    }
+
+    if(Number(m3.value) > 100){
+        m3.value = 100;
+    }
+
+    if(Number(smv.value) > 110){
+        smv.value = 110;
+    }
+
+    let days =
+    parseInt(att.value) || 0;
+
+    if(days > TOTAL_DAYS){
+
+        att.value = TOTAL_DAYS;
+        days = TOTAL_DAYS;
+
+    }
+
+    attp.value =
+    ((days / TOTAL_DAYS) * 100)
+    .toFixed(2);
+
+}
+
+m1.addEventListener(
+"input",
+validate
+);
+
+m2.addEventListener(
+"input",
+validate
+);
+
+m3.addEventListener(
+"input",
+validate
+);
+
+smv.addEventListener(
+"input",
+validate
+);
+
+att.addEventListener(
+"input",
+validate
+);
+
+validate();
+});
+const cells = Array.from(
+
+document.querySelectorAll(
+"#marksTable input, #marksTable select"
+)
+
+);
+
+cells.forEach((cell,index)=>{
+
+cell.addEventListener(
+"keydown",
+function(e){
+
+if(e.key === "Enter"){
+
+e.preventDefault();
+
+const nextCell =
+cells[index + 1];
+
+if(nextCell){
+
+nextCell.focus();
+
+if(
+typeof nextCell.select
+=== "function"
+){
+
+nextCell.select();
+
+}
+
+}
+
+}
+
+});
+
+});
+
+
+document.querySelectorAll(
+".save-btn"
+).forEach(btn=>{
+
+btn.addEventListener(
+"click",
+async function(){
+
+const row =
+this.closest("tr");
+
+const data = {
+
+student_id:
+row.dataset.id,
+
+first:
+row.querySelector(".m1").value,
+
+second:
+row.querySelector(".m2").value,
+
+third:
+row.querySelector(".m3").value,
+
+smv:
+row.querySelector(".smv").value,
+
+attendance_days:
+row.querySelector(".att").value,
+
+attendance_percentage:
+row.querySelector(".attp").value,
+
+grade:
+row.querySelector("select").value,
+
+locked:true
+
+};
+
+const response =
+await fetch(
+"/save_marks",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify(data)
+
+}
+);
+
+const result =
+await response.json();
+
+if(result.success){
+
+row.querySelectorAll(
+".view-mode"
+).forEach(span=>{
+
+span.remove();
+
+});
+
+row.querySelectorAll(
+"input,select"
+).forEach(field=>{
+
+const span =
+document.createElement(
+"span"
+);
+
+span.className =
+"view-mode";
+
+if(
+field.tagName ===
+"SELECT"
+){
+
+span.innerText =
+field.options[
+field.selectedIndex
+].text;
+
+}
+else{
+
+span.innerText =
+field.value;
+
+}
+
+field.style.display =
+"none";
+
+field.parentNode
+.appendChild(span);
+
+});
+
+
+}
+
+});
+
+});
+
+
+document.querySelectorAll(
+".edit-btn"
+).forEach(btn=>{
+
+btn.addEventListener(
+"click",
+function(){
+
+const row =
+this.closest("tr");
+
+fetch(
+"/unlock_marks",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify({
+
+student_id:
+row.dataset.id
+
+})
+
+}
+);
+
+row.querySelectorAll(
+".view-mode"
+).forEach(span=>{
+
+span.remove();
+
+});
+
+row.querySelectorAll(
+"input,select"
+).forEach(field=>{
+
+field.style.display =
+"";
+
+});
+
+});
+
+});
+
+
+document.getElementById(
+"save_all_btn"
+).addEventListener(
+"click",
+async function(){
+
+const rows =
+document.querySelectorAll(
+"#marksTable tbody tr"
+);
+
+const allData = [];
+
+rows.forEach(row=>{
+
+allData.push({
+
+student_id:
+row.dataset.id,
+
+first:
+row.querySelector(".m1").value,
+
+second:
+row.querySelector(".m2").value,
+
+third:
+row.querySelector(".m3").value,
+
+smv:
+row.querySelector(".smv").value,
+
+attendance_days:
+row.querySelector(".att").value,
+
+attendance_percentage:
+row.querySelector(".attp").value,
+
+grade:
+row.querySelector("select").value,
+
+locked:true
+
+});
+
+});
+
+const response =
+await fetch(
+"/save_all_marks",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify(
+allData
+)
+
+}
+);
+
+const result =
+await response.json();
+
+if(result.success){
+
+if(result.success){
+
+    document.querySelectorAll(
+    "#marksTable tbody tr"
+    ).forEach(row=>{
+
+        row.querySelectorAll(
+        ".view-mode"
+        ).forEach(span=>{
+
+            span.remove();
+
+        });
+
+        row.querySelectorAll(
+        "input,select"
+        ).forEach(field=>{
+
+            const span =
+            document.createElement("span");
+
+            span.className =
+            "view-mode";
+
+            if(field.tagName === "SELECT"){
+
+                span.innerText =
+                field.options[
+                field.selectedIndex
+                ].text;
+
+            }else{
+
+                span.innerText =
+                field.value;
+
+            }
+
+            field.style.display =
+            "none";
+
+            field.parentNode
+            .appendChild(span);
+
+        });
+
+    });
+
+   
+}
+}
+
+});
+
+
+document.querySelectorAll(
+"#marksTable tbody tr"
+).forEach(row=>{
+
+if(
+row.dataset.locked
+=== "True"
+){
+
+row.querySelectorAll(
+"input,select"
+).forEach(field=>{
+
+const span =
+document.createElement(
+"span"
+);
+
+span.className =
+"view-mode";
+
+if(
+field.tagName ===
+"SELECT"
+){
+
+span.innerText =
+field.options[
+field.selectedIndex
+].text;
+
+}
+else{
+
+span.innerText =
+field.value;
+
+}
+
+field.style.display =
+"none";
+
+field.parentNode
+.appendChild(span);
+
+});
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

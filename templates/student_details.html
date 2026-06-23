@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STUDENT DOSSIER</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+
+    width:100%;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:url("{{ url_for('static', filename='images/options.jpg') }}");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.82);
+
+    pointer-events:none;
+}
+
+.panel{
+
+    position:relative;
+
+    z-index:10;
+
+    width:96vw;
+    height:94vh;
+
+    background:rgba(0,0,0,.45);
+
+    border:2px solid #00d9ff;
+
+    box-shadow:
+    0 0 25px #00d9ff,
+    inset 0 0 25px rgba(0,217,255,.15);
+
+    backdrop-filter:blur(8px);
+
+    overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+    height:80px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 30px;
+
+    border-bottom:1px solid rgba(0,217,255,.3);
+
+    color:#00d9ff;
+
+    font-size:24px;
+
+    letter-spacing:3px;
+
+    text-shadow:
+    0 0 15px #00d9ff;
+}
+
+/* MAIN */
+
+.main{
+
+    display:flex;
+
+    height:calc(100% - 80px);
+}
+
+/* LEFT */
+
+.left-panel{
+
+    width:30%;
+
+    border-right:1px solid rgba(0,217,255,.25);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+.agent-card{
+
+    width:100%;
+
+    text-align:center;
+
+    border:1px solid rgba(0,217,255,.3);
+
+    padding:30px;
+
+    background:rgba(0,0,0,.3);
+}
+
+.agent-symbol{
+
+    font-size:130px;
+
+    color:#00d9ff;
+
+    text-shadow:
+    0 0 20px #00d9ff,
+    0 0 50px #00d9ff;
+}
+
+.status{
+
+    margin-top:20px;
+
+    padding:12px;
+
+    border:1px solid rgba(0,217,255,.3);
+
+    color:#00ff88;
+
+    margin-bottom:12px;
+}
+
+.record-id{
+
+    margin-top:20px;
+
+    color:#00d9ff;
+
+    font-size:12px;
+
+    word-break:break-all;
+}
+
+/* RIGHT */
+
+.right-panel{
+
+    width:70%;
+
+    padding:30px;
+
+    overflow-y:auto;
+
+    scrollbar-width:none;
+}
+
+.right-panel::-webkit-scrollbar{
+
+    display:none;
+}
+.name{
+
+    color:#00d9ff;
+
+    font-size:60px;
+
+    margin-bottom:15px;
+
+    text-shadow:
+    0 0 15px #00d9ff;
+}
+
+.section{
+
+    margin-top:25px;
+}
+
+.section-title{
+
+    color:#00ff88;
+
+    font-size:18px;
+
+    letter-spacing:3px;
+
+    margin-bottom:15px;
+
+    border-bottom:1px solid rgba(0,255,136,.3);
+
+    padding-bottom:10px;
+}
+
+.detail{
+
+    display:flex;
+
+    padding:14px 0;
+
+    border-bottom:1px solid rgba(0,217,255,.12);
+}
+
+.label{
+
+    width:180px;
+
+    color:#00d9ff;
+}
+
+.value{
+
+    flex:1;
+
+    color:white;
+}
+
+
+/* BUTTONS */
+
+.buttons{
+
+    margin-top:35px;
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    padding:14px 28px;
+
+    background:transparent;
+
+    color:#00d9ff;
+
+    border:2px solid #00d9ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn:hover{
+
+    background:#00d9ff;
+
+    color:black;
+}
+
+.delete{
+
+    color:#ff4444;
+
+    border-color:#ff4444;
+}
+
+.delete:hover{
+
+    background:#ff4444;
+
+    color:white;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .main{
+        flex-direction:column;
+    }
+
+    .left-panel{
+
+        width:100%;
+
+        border-right:none;
+
+        border-bottom:1px solid rgba(0,217,255,.25);
+    }
+
+    .right-panel{
+
+        width:100%;
+    }
+
+    .name{
+
+        font-size:38px;
+    }
+
+    .detail{
+
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .label{
+
+        width:100%;
+    }
+}
+
+.marks-card{
+    margin-top:25px;
+    border:1px solid #00d9ff;
+    padding:15px;
+    border-radius:10px;
+    background:rgba(0,217,255,.05);
+    color:white;
+}
+
+.marks-card h3{
+    color:#00ff88;
+    margin-bottom:15px;
+}
+
+.marks-card p{
+    color:white;
+    margin:8px 0;
+}</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="panel">
+
+    <div class="header">
+
+        <div>
+            TPM SUNDAY SCHOOL DATABASE
+        </div>
+
+        <div>
+            ACTIVE RECORD
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="left-panel">
+
+            <div class="agent-card">
+
+                <div class="agent-symbol">
+                    ⬢
+                </div>
+
+                <div class="status">
+                    TARGET IDENTIFIED
+                </div>
+
+                <div class="status">
+                    STATUS : ACTIVE
+                </div>
+
+                <div class="status">
+                    SECURITY : VERIFIED
+                </div>
+
+                <div class="record-id">
+                    {{ student._id }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+
+            <div class="name">
+                {{ student.name }}
+            </div>
+
+            <div class="section">
+
+                <div class="section-title">
+                   STUDENT DETAILS
+                </div>
+               <div class="detail">
+
+<div class="label">
+LAST NAME
+</div>
+
+<div class="value">
+{{ student.last_name }}
+</div>
+
+</div>
+                <div class="detail">
+                    <div class="label">DATE OF BIRTH</div>
+                    <div class="value">{{ student.dob.split('-')[2] }}-{{ student.dob.split('-')[1] }}-{{ student.dob.split('-')[0] }}</div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">AGE</div>
+                    <div class="value">{{ student.age }}</div>
+                </div>
+<div class="detail">
+
+    <div class="label">
+        GENDER
+    </div>
+
+    <div class="value">
+        {{ student.gender }}
+    </div>
+
+</div>
+                <div class="detail">
+                    <div class="label">CLASS</div>
+                    <div class="value">{{ student.std }}</div>
+                </div>
+
+            <div class="section">
+
+                <div class="section-title">
+                    ADDITIONAL DETAILS
+                </div>
+                <div class="detail">
+                    <div class="label">BRANCH</div>
+                    <div class="value">{{ student.place }}</div>
+                </div>
+<div class="detail">
+<div class="label">PARENT NAME</div>
+    <div class="value">
+        {{ student.parent_name }}
+    </div>
+
+</div>
+               <div class="detail">
+                    <div class="label">DATE OF ADMISSION</div>
+                    <div class="value">{{ student.admission_date.split('-')[2] }}-{{ student.admission_date.split('-')[1] }}-{{ student.admission_date.split('-')[0] }}</div>
+                </div>
+<div class="detail">
+                    <div class="label">CLASS OF ADMISSON</div>
+                    <div class="value">{{ student.admission_class }}</div>
+                </div>
+
+            </div>
+
+<div class="section">
+
+    <div class="section-title">
+        MARKS & ATTENDANCE
+    </div>
+
+    <div class="detail">
+        <div class="label">1ST TERM</div>
+        <div class="value">{{ mark.first }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">2ND  TERM</div>
+        <div class="value">{{ mark.second }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">3RD  TERM</div>
+        <div class="value">{{ mark.third }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">SMV</div>
+        <div class="value">{{ mark.smv }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">ATT. DAYS</div>
+        <div class="value">{{ mark.attendance_days }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">ATT. %</div>
+        <div class="value">{{ mark.attendance_percentage }}</div>
+    </div>
+
+    <div class="detail">
+        <div class="label">GRADE</div>
+        <div class="value">{{ mark.grade }}</div>
+    </div>
+
+</div>
+            <div class="buttons">
+
+                <button
+                class="btn"
+                onclick="window.location.href='/search_student'">
+                    RETURN
+                </button>
+
+                <button
+class="btn"
+onclick="window.location.href='/edit_student/{{ student._id }}'">
+
+    EDIT RECORD
+
+</button>
+
+               <button
+class="btn delete"
+onclick="deleteRecord()">
+
+    DELETE RECORD
+
+</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+function deleteRecord(){
+
+    if(confirm(
+        "ARE YOU SURE YOU WANT TO DELETE THIS RECORD?"
+    )){
+
+        window.location.href =
+        "/delete_student/{{ student._id }}";
+
+    }
+
+}
+
+</script>
+</body>
+</html>
+
