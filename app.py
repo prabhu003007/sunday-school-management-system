@@ -9,7 +9,7 @@ app = Flask(__name__)
 # =========================
 
 client = MongoClient(
-    "mongodb+srv://SundaySchool:tpm@cluster0.ku6kpke.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://SundaySchool:tpm@cluster0.ku6kpke.mongodb.net/SundaySchool_db?retryWrites=true&w=majority&appName=Cluster0"
 )
 db = client["SundaySchool_db"]
 students = db["students"]
