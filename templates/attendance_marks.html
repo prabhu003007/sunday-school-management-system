@@ -42,10 +42,13 @@ body{
 
 .table-wrap{
     width:100%;
-    overflow-x:auto;
-    overflow-y:auto;
-    border:1px solid #00d9ff;
-    box-shadow:0 0 15px rgba(0,217,255,.25);
+    overflow:auto;
+
+    scrollbar-width:none;
+}
+
+.table-wrap::-webkit-scrollbar{
+    display:none;
 }
 
 table{

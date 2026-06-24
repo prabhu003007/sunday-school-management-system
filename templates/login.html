@@ -128,6 +128,19 @@ color:#F5DEB3;
 .message{text-align:center;margin-top:15px;font-weight:bold;}
 .success{color:#7CFC00;}
 .failed{color:#ff6666;}
+@media(max-width:768px){
+
+    body{
+
+        background:url("{{ url_for('static', filename='images/login_mobile.jpg') }}");
+
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+
+    }
+
+}
 </style>
 </head>
 <body>
