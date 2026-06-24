@@ -289,7 +289,7 @@ readonly>
     name="gender"
     required>
         <option value="">
-            SELECT GENDER
+            
         </option>
         <option value="MALE">
             MALE
@@ -304,8 +304,7 @@ readonly>
 <label>CLASS </label>
         <select id="std" name="std" required>
     <option value="">
-        SELECT CLASS
-    </option>
+            </option>
     {% for i in range(1,12) %}
     <option value="{{ i }}">
         {{ i }} STD
@@ -317,7 +316,6 @@ readonly>
            <label>BRANCH</label>
 <select name="place" required>
 <option value="">
-SELECT BRANCH
 </option>
 {% for branch in branches %}
 <option value="{{ branch.branch_name }}">
@@ -347,8 +345,7 @@ id="admission_class"
 name="admission_class"
 >
     <option value="">
-        SELECT CLASS
-    </option>
+            </option>
     {% for i in range(1,12) %}
     <option value="{{ i }}">
         {{ i }} STD
