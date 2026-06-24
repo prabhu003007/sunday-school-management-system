@@ -68,6 +68,13 @@ body{
 
 @media(max-width:768px){
 
+body{
+        background:url("{{ url_for('static', filename='images/options_mobile.png') }}");
+        background-size:cover;
+        background-position:center center;
+        background-repeat:no-repeat;
+    }
+
     .container{
 
         flex-direction:column;
