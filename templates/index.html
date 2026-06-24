@@ -129,36 +129,10 @@ body{
 
 @media(max-width:768px){
 
-    .main-title{
-        font-size:34px !important;
-        line-height:1.05;
-    }
-
-    .online{
-        font-size:11px !important;
-        letter-spacing:2px;
-    }
-
-    #enterBtn{
-        width:220px;
-        padding:12px 20px;
-        font-size:14px;
-        margin-top:20px;
-    }
-
-    .clock{
-        bottom:15px;
-        right:15px;
-        min-width:120px;
-        padding:8px 12px;
-        font-size:14px;
-    }
-@media(max-width:768px){
-
     body{
         background:url("{{ url_for('static', filename='images/index_mobile.png') }}");
         background-size:cover;
-        background-position:center center;
+        background-position:center;
         background-repeat:no-repeat;
     }
 
@@ -168,6 +142,7 @@ body{
         left:auto;
         bottom:auto;
 
+        min-width:120px;
         font-size:14px;
         padding:8px 12px;
     }
@@ -178,20 +153,10 @@ body{
 
         width:100%;
 
-        text-align:center;
-
-        font-family:'Cinzel',serif;
         font-size:42px;
-        font-weight:800;
-
-        color:#ffffff;
-
         line-height:1.1;
 
-        text-shadow:
-        0 0 10px rgba(0,0,0,.9),
-        0 0 20px rgba(0,0,0,.9),
-        0 0 40px rgba(0,0,0,.8);
+        text-align:center;
     }
 
     .online{
@@ -207,25 +172,24 @@ body{
         font-size:13px;
 
         letter-spacing:3px;
-
-        text-shadow:
-        0 0 10px rgba(0,0,0,.8);
     }
 
     #enterBtn{
         position:absolute;
 
-        top:240px;
+        top:230px;
 
         left:50%;
 
         transform:translateX(-50%);
 
-        margin-top:0;
+        width:220px;
 
-        padding:14px 30px;
+        padding:12px 20px;
 
-        font-size:15px;
+        font-size:14px;
+
+        margin:0;
     }
 
 }
