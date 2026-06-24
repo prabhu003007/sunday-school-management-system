@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1000">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADD STUDENT</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
@@ -167,6 +167,44 @@ select option{
     0 0 20px #00d9ff;
 }
 
+@media(max-width:768px){
+
+    .panel{
+        width:98%;
+        padding:15px;
+        margin:10px;
+    }
+
+    .title{
+        font-size:20px;
+    }
+
+    .form-group{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    .form-group label{
+        width:100%;
+        font-size:12px;
+    }
+
+    .form-group input,
+    .form-group select{
+        width:100%;
+        font-size:16px;
+    }
+
+    .btn-area,
+    .button-area{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
 </style>
 
 </head>
