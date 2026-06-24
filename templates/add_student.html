@@ -11,16 +11,19 @@
 
 body{
     width:100%;
-  min-width:900px;    
-min-height:100vh;
-    padding:20px 0;
+    min-height:100vh;
+
     background:url("{{ url_for('static', filename='images/general.jpg') }}");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
+    background-attachment:fixed;
+
     display:flex;
     justify-content:center;
     align-items:flex-start;
+
+    padding:10px;
 }
 input{
     width:100%;
@@ -58,13 +61,12 @@ input:focus{
     0 0 15px #00d9ff;
 }
 .panel{
-    position:relative;
-    z-index:10;
-
-    width:95vw;
+    width:100%;
     max-width:850px;
 
-    padding:25px;
+    padding:15px;
+
+    margin:0;
 
     background:rgba(0,0,0,.45);
 
@@ -74,7 +76,12 @@ input:focus{
     0 0 20px #00d9ff,
     inset 0 0 15px rgba(0,217,255,.2);
 }
-
+html,
+body{
+    margin:0;
+    padding:0;
+    overflow-x:hidden;
+}
 .form-group{
 
     display:flex;
@@ -169,36 +176,14 @@ select option{
 
 @media(max-width:768px){
 
+    body{
+        padding:5px;
+    }
+
     .panel{
-        width:98%;
-        padding:15px;
-        margin:10px;
-    }
-
-    .title{
-        font-size:20px;
-    }
-
-    .form-group{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:5px;
-    }
-
-    .form-group label{
         width:100%;
-        font-size:12px;
-    }
-
-    .form-group input,
-    .form-group select{
-        width:100%;
-        font-size:16px;
-    }
-
-    .btn-area,
-    .button-area{
-        flex-direction:column;
+        max-width:none;
+        padding:12px;
     }
 
     .btn{
