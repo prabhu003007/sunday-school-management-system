@@ -3,8 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=1200">
 <title>EDIT RECORD</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
@@ -22,7 +21,7 @@ body{
 
      width:100%;
     min-height:100vh;
-
+min-width:1200px;
     overflow-y:auto;
 
     background:url("{{ url_for('static', filename='images/general.jpg') }}");
@@ -215,35 +214,6 @@ select option{
     color:white;
 }
 
-@media(max-width:768px){
-
-    body{
-        overflow:auto;
-    }
-
-    .panel{
-        width:95%;
-        margin:20px;
-    }
-
-    .form-group{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-    }
-
-    .form-group label{
-
-        width:100%;
-    }
-
-    .form-group input,
-    .form-group textarea{
-
-        width:100%;
-    }
-}
 
 </style>
 </head>
@@ -444,7 +414,7 @@ CANCEL
 
 document
 .querySelectorAll(
-'input[type="text"], textarea'
+'input[type="text"]'
 )
 .forEach(field => {
 

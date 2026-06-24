@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Attendance & Marks</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
@@ -43,17 +42,18 @@ body{
 
 .table-wrap{
     width:100%;
-    overflow:hidden;
+    overflow-x:auto;
+    overflow-y:auto;
     border:1px solid #00d9ff;
     box-shadow:0 0 15px rgba(0,217,255,.25);
 }
 
 table{
+    min-width:1400px;
     width:100%;
     table-layout:fixed;
     border-collapse:collapse;
 }
-
 th,td{
     border:1px solid rgba(0,217,255,.30);
     padding:5px;
