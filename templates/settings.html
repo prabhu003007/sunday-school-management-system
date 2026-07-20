@@ -667,7 +667,28 @@ PROMOTE
 </div>
 
 <script>
+console.log("SCRIPT START");
 
+document.querySelectorAll('input[type="text"], textarea')
+.forEach(field=>{
+    field.addEventListener("input",function(){
+        this.value=this.value.toUpperCase();
+    });
+});
+
+console.log("AFTER INPUT");
+
+const editBtn=document.getElementById("edit_btn");
+const saveBtn=document.getElementById("save_btn");
+
+console.log(editBtn);
+console.log(saveBtn);
+
+const startYear=document.getElementById("start_year");
+const endYear=document.getElementById("end_year");
+
+console.log(startYear);
+console.log(endYear);
 document.querySelectorAll('input[type="text"], textarea')
 .forEach(field=>{
     field.addEventListener("input",function(){
