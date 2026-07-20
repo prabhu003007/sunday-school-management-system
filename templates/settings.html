@@ -703,6 +703,8 @@ document.getElementById("start_month").value="{{ settings.start_month }}";
 document.getElementById("end_month").value="{{ settings.end_month }}";
 editBtn.addEventListener("click", function(){
 
+    alert("EDIT CLICKED");
+
     document.querySelectorAll(".view-mode")
     .forEach(x => x.style.display = "none");
 
@@ -718,10 +720,13 @@ editBtn.addEventListener("click", function(){
     });
 
     editBtn.style.display = "none";
-
     saveBtn.style.display = "inline-block";
 
-    document.getElementById("promote_btn").style.display = "inline-block";
+    const promoteBtn = document.getElementById("promote_btn");
+
+    console.log(promoteBtn);
+
+    promoteBtn.style.display = "inline-block";
 
 });
 
