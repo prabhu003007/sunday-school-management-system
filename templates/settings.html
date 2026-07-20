@@ -697,27 +697,28 @@ endYear.value="{{ settings.end_year }}";
 
 document.getElementById("start_month").value="{{ settings.start_month }}";
 document.getElementById("end_month").value="{{ settings.end_month }}";
-editBtn.addEventListener("click",function(){
+editBtn.addEventListener("click", function(){
 
     document.querySelectorAll(".view-mode")
-    .forEach(x=>x.style.display="none");
+    .forEach(x => x.style.display = "none");
 
     document.querySelectorAll(".edit-mode")
-    .forEach(x=>{
+    .forEach(x => {
 
         if(x.classList.contains("delete-branch")){
-            x.style.display="inline-block";
-        }
-        else{
-            x.style.display="block";
+            x.style.display = "inline-block";
+        }else{
+            x.style.display = "block";
         }
 
     });
 
-editBtn.style.display="none";
-saveBtn.style.display="inline-block";
+    editBtn.style.display = "none";
 
-document.getElementById("promote_btn").style.display="inline-block";
+    saveBtn.style.display = "inline-block";
+
+    document.getElementById("promote_btn").style.display = "inline-block";
+
 });
 
 saveBtn.addEventListener("click",async function(){
