@@ -502,6 +502,25 @@ def save_marks():
 
     data = request.get_json()
 
+    # Get student details
+    student = students.find_one({
+        "_id": ObjectId(data["student_id"])
+    })
+
+    current_class = int(student["std"])
+    grade = data["grade"]
+
+    # Decide next class
+    new_class = current_class
+
+    if grade == "ABSENT":
+        new_class = current_class
+
+    elif grade != "":
+        if current_class < 11:
+            new_class = current_class + 1
+
+    # Save marks
     marks.update_one(
 
         {
@@ -523,13 +542,25 @@ def save_marks():
                 data["attendance_percentage"],
 
                 "grade":
-                data["grade"],
+                grade,
 
                 "locked": True
             }
         },
 
         upsert=True
+    )
+
+    # Update student's class
+    students.update_one(
+        {
+            "_id": ObjectId(data["student_id"])
+        },
+        {
+            "$set": {
+                "std": str(new_class)
+            }
+        }
     )
 
     return jsonify({
