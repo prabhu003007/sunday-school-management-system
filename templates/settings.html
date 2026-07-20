@@ -177,6 +177,92 @@ input{
 
 }
 
+select{
+
+padding:10px;
+
+background:black;
+
+color:#00d9ff;
+
+border:1px solid #00d9ff;
+
+width:250px;
+
+}
+
+.popup{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.85);
+
+z-index:9999;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.popup-box{
+
+width:500px;
+
+max-width:90%;
+
+padding:30px;
+
+background:#08111d;
+
+border:2px solid #00d9ff;
+
+box-shadow:0 0 30px #00d9ff;
+
+text-align:center;
+
+}
+
+.popup h2{
+
+color:#00d9ff;
+
+margin-bottom:20px;
+
+}
+
+.popup p{
+
+color:white;
+
+margin-bottom:25px;
+
+line-height:1.8;
+
+}
+
+.popup input{
+
+width:100%;
+
+margin-bottom:25px;
+
+}
+
+.popup-buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+}
+
 .edit-mode{
     display:none;
 }
@@ -254,77 +340,134 @@ input{
 
     <div class="section">
 
-        <div class="section-title">
-            GENERAL SETTINGS
-        </div>
+    <div class="section-title">
+        GENERAL SETTINGS
+    </div>
 
-        <div class="row">
+    <div class="row">
 
-            <span>ACADEMIC YEAR</span>
+        <span>START MONTH</span>
 
-            <span class="view-mode">
-                {{ settings.academic_year }}
-            </span>
+        <span class="view-mode value">
+            {{ settings.start_month_name }}
+        </span>
 
-            <input
-            class="edit-mode"
-            id="academic_year"
-            value="{{ settings.academic_year }}"
-            >
+        <select class="edit-mode" id="start_month">
 
-        </div>
+            <option value="1">JANUARY</option>
+            <option value="2">FEBRUARY</option>
+            <option value="3">MARCH</option>
+            <option value="4">APRIL</option>
+            <option value="5">MAY</option>
+            <option value="6">JUNE</option>
+            <option value="7">JULY</option>
+            <option value="8">AUGUST</option>
+            <option value="9">SEPTEMBER</option>
+            <option value="10">OCTOBER</option>
+            <option value="11">NOVEMBER</option>
+            <option value="12">DECEMBER</option>
 
-        <div class="row">
-
-            <span>ATTENDANCE DAYS</span>
-
-            <span class="view-mode">
-                {{ settings.attendance_days }}
-            </span>
-
-            <input
-            type="text"
-            class="edit-mode"
-            id="attendance_days"
-            value="{{ settings.attendance_days }}"
-            >
-
-        </div>
-
-        <div class="row">
-
-            <span>CENTER NAME</span>
-
-            <span class="view-mode">
-                {{ settings.center_name }}
-            </span>
-
-            <input
-            class="edit-mode"
-            id="center_name"
-            value="{{ settings.center_name }}"
-           >
-
-        </div>
-
-        <div class="row">
-
-            <span>ASSEMBLY NAME</span>
-
-            <span class="view-mode">
-                {{ settings.assembly_name }}
-            </span>
-
-            <input
-            class="edit-mode"
-            id="assembly_name"
-            value="{{ settings.assembly_name }}"
-           >
-
-        </div>
+        </select>
 
     </div>
 
+    <div class="row">
+
+        <span>START YEAR</span>
+
+        <span class="view-mode value">
+            {{ settings.start_year }}
+        </span>
+
+        <select class="edit-mode" id="start_year"></select>
+
+    </div>
+
+    <div class="row">
+
+        <span>END MONTH</span>
+
+        <span class="view-mode value">
+            {{ settings.end_month_name }}
+        </span>
+
+        <select class="edit-mode" id="end_month">
+
+            <option value="1">JANUARY</option>
+            <option value="2">FEBRUARY</option>
+            <option value="3">MARCH</option>
+            <option value="4">APRIL</option>
+            <option value="5">MAY</option>
+            <option value="6">JUNE</option>
+            <option value="7">JULY</option>
+            <option value="8">AUGUST</option>
+            <option value="9">SEPTEMBER</option>
+            <option value="10">OCTOBER</option>
+            <option value="11">NOVEMBER</option>
+            <option value="12">DECEMBER</option>
+
+        </select>
+
+    </div>
+
+    <div class="row">
+
+        <span>END YEAR</span>
+
+        <span class="view-mode value">
+            {{ settings.end_year }}
+        </span>
+
+        <select class="edit-mode" id="end_year"></select>
+
+    </div>
+
+    <div class="row">
+
+        <span>ATTENDANCE DAYS</span>
+
+        <span class="view-mode value">
+            {{ settings.attendance_days }}
+        </span>
+
+        <input
+        class="edit-mode"
+        id="attendance_days"
+        value="{{ settings.attendance_days }}">
+
+    </div>
+
+    <div class="row">
+
+        <span>CENTER NAME</span>
+
+        <span class="view-mode value">
+            {{ settings.center_name }}
+        </span>
+
+        <input
+        class="edit-mode"
+        id="center_name"
+        value="{{ settings.center_name }}">
+
+    </div>
+
+    <div class="row">
+
+        <span>ASSEMBLY NAME</span>
+
+        <span class="view-mode value">
+            {{ settings.assembly_name }}
+        </span>
+
+        <input
+        class="edit-mode"
+        id="assembly_name"
+        value="{{ settings.assembly_name }}">
+
+    </div>
+
+</div>
 
     <div class="section">
 
@@ -441,6 +584,14 @@ style="display:none;">
 
         </button>
 
+<button
+class="btn"
+id="promote_btn">
+
+PROMOTE ACADEMIC YEAR
+
+</button>
+
         <button
         class="btn"
         onclick="window.location.href='/change_password'">
@@ -461,6 +612,56 @@ style="display:none;">
 
 </div>
 
+<div id="promotionPopup" class="popup">
+
+<div class="popup-box">
+
+<h2>
+
+ACADEMIC YEAR PROMOTION
+
+</h2>
+
+<p>
+
+This will promote every eligible student.
+
+<br><br>
+
+Students with
+
+<b>ABSENT</b>
+
+will remain in the same class.
+
+</p>
+
+<input
+type="password"
+id="promotion_password"
+placeholder="ENTER ACCESS CODE">
+
+<div class="popup-buttons">
+
+<button
+class="btn"
+id="cancelPromotion">
+
+CANCEL
+
+</button>
+
+<button
+class="btn"
+id="promote_btn"
+style="display:none;">
+
+</div>
+
+</div>
+
+</div>
+
 <script>
 
 document.querySelectorAll('input[type="text"], textarea')
@@ -472,7 +673,30 @@ document.querySelectorAll('input[type="text"], textarea')
 
 const editBtn=document.getElementById("edit_btn");
 const saveBtn=document.getElementById("save_btn");
+// =========================
+// YEAR DROPDOWNS
+// =========================
 
+const startYear = document.getElementById("start_year");
+const endYear = document.getElementById("end_year");
+
+for(let y = 2020; y <= 2050; y++){
+
+    startYear.innerHTML +=
+    `<option value="${y}">${y}</option>`;
+
+    endYear.innerHTML +=
+    `<option value="${y}">${y}</option>`;
+
+}
+
+// Load saved values from Flask
+
+startYear.value="{{ settings.start_year }}";
+endYear.value="{{ settings.end_year }}";
+
+document.getElementById("start_month").value="{{ settings.start_month }}";
+document.getElementById("end_month").value="{{ settings.end_month }}";
 editBtn.addEventListener("click",function(){
 
     document.querySelectorAll(".view-mode")
@@ -490,29 +714,58 @@ editBtn.addEventListener("click",function(){
 
     });
 
-    editBtn.style.display="none";
-    saveBtn.style.display="inline-block";
+editBtn.style.display="none";
+saveBtn.style.display="inline-block";
 
+document.getElementById("promote_btn").style.display="inline-block";
 });
 
 saveBtn.addEventListener("click",async function(){
 
-    const data={
+ const data={
 
-        academic_year:
-        document.getElementById("academic_year").value,
+    start_month:
+    Number(document.getElementById("start_month").value),
 
-        attendance_days:
-        document.getElementById("attendance_days").value,
+    start_year:
+    Number(document.getElementById("start_year").value),
 
-        center_name:
-        document.getElementById("center_name").value,
+    end_month:
+    Number(document.getElementById("end_month").value),
 
-        assembly_name:
-        document.getElementById("assembly_name").value
+    end_year:
+    Number(document.getElementById("end_year").value),
 
-    };
+    attendance_days:
+    document.getElementById("attendance_days").value,
 
+    center_name:
+    document.getElementById("center_name").value,
+
+    assembly_name:
+    document.getElementById("assembly_name").value
+
+};
+
+if(data.end_year!==data.start_year+1){
+
+    alert(
+    "End Year must be exactly one year after Start Year."
+    );
+
+    return;
+
+}
+
+if(data.start_month===data.end_month){
+
+    alert(
+    "Start Month and End Month cannot be the same."
+    );
+
+    return;
+
+}
     const response=await fetch(
         "/save_settings",
         {
@@ -674,6 +927,83 @@ function(e){
 });
 
 });
+const popup =
+document.getElementById("promotionPopup");
+
+document
+.getElementById("promote_btn")
+.onclick=function(){
+
+    popup.style.display="flex";
+
+};
+
+document
+.getElementById("cancelPromotion")
+.onclick=function(){
+
+    popup.style.display="none";
+
+};
+document
+.getElementById("confirmPromotion")
+.onclick=async function(){
+
+    const password=
+    document
+    .getElementById(
+    "promotion_password"
+    ).value;
+
+    if(password===""){
+
+        alert("Enter Access Code");
+
+        return;
+
+    }
+
+    const response=
+    await fetch(
+        "/promote_students",
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                password:password
+
+            })
+
+        }
+    );
+
+    const result=
+    await response.json();
+
+    alert(result.message);
+
+    if(result.success){
+
+        location.reload();
+
+    }
+
+};
+popup.onclick=function(e){
+
+    if(e.target===popup){
+
+        popup.style.display="none";
+
+    }
+
+};
 
 </script>
 </body>

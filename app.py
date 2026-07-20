@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from pymongo import MongoClient
 from bson import ObjectId
-
+from datetime import datetime
 app = Flask(__name__)
 
 # =========================
@@ -17,6 +17,30 @@ passwords = db["passwords"]
 marks = db["marks"]
 settings_col = db["settings"]
 branches = db["branches"]
+// =========================
+// YEAR DROPDOWNS
+// =========================
+
+const startYear = document.getElementById("start_year");
+const endYear = document.getElementById("end_year");
+
+for(let y = 2020; y <= 2050; y++){
+
+    startYear.innerHTML +=
+    `<option value="${y}">${y}</option>`;
+
+    endYear.innerHTML +=
+    `<option value="${y}">${y}</option>`;
+
+}
+
+// Load saved values from Flask
+
+startYear.value="{{ settings.start_year }}";
+endYear.value="{{ settings.end_year }}";
+
+document.getElementById("start_month").value="{{ settings.start_month }}";
+document.getElementById("end_month").value="{{ settings.end_month }}";
 @app.route("/")
 def login():
     return render_template("login.html")
@@ -290,6 +314,10 @@ def settings():
         branch["student_count"] = students.count_documents({
             "place": branch["branch_name"]
         })
+    
+settings_data = settings_col.find_one() or {}
+
+settings_data["academic_year"] = get_academic_year()
 
     return render_template(
         "settings.html",
@@ -308,17 +336,17 @@ def save_settings():
     data = request.get_json()
 
     settings_col.update_one(
-        {},
-        {
-            "$set": {
-                "academic_year": data["academic_year"].upper(),
-                "attendance_days": data["attendance_days"],
-                "center_name": data["center_name"].upper(),
-                "assembly_name": data["assembly_name"].upper()
-            }
-        },
-        upsert=True
-    )
+    {},
+    {
+        "$set": {
+            "academic_year": get_academic_year(),
+            "attendance_days": data["attendance_days"],
+            "center_name": data["center_name"].upper(),
+            "assembly_name": data["assembly_name"].upper()
+        }
+    },
+    upsert=True
+)
 
     return jsonify({
         "success": True
@@ -574,11 +602,29 @@ def save_all_marks():
 
     for row in data:
 
+        # Get student
+        student = students.find_one({
+            "_id": ObjectId(row["student_id"])
+        })
+
+        current_class = int(student["std"])
+        grade = row["grade"]
+
+        # Decide next class
+        new_class = current_class
+
+        if grade == "ABSENT":
+            new_class = current_class
+
+        elif grade != "":
+            if current_class < 11:
+                new_class = current_class + 1
+
+        # Save marks
         marks.update_one(
 
             {
-                "student_id":
-                row["student_id"]
+                "student_id": row["student_id"]
             },
 
             {
@@ -596,7 +642,7 @@ def save_all_marks():
                     row["attendance_percentage"],
 
                     "grade":
-                    row["grade"],
+                    grade,
 
                     "locked": True
                 }
@@ -605,12 +651,21 @@ def save_all_marks():
             upsert=True
         )
 
+        # Update student's class
+        students.update_one(
+            {
+                "_id": ObjectId(row["student_id"])
+            },
+            {
+                "$set": {
+                    "std": str(new_class)
+                }
+            }
+        )
+
     return jsonify({
         "success": True
     })
-
-
-
 @app.route("/unlock_marks", methods=["POST"])
 def unlock_marks():
 
@@ -624,6 +679,19 @@ def unlock_marks():
     return jsonify({"success": True})
 
 
+ACADEMIC_YEAR_START_MONTH = 6   # June
+
+def get_academic_year():
+    today = datetime.now()
+
+    if today.month >= ACADEMIC_YEAR_START_MONTH:
+        start_year = today.year
+        end_year = today.year + 1
+    else:
+        start_year = today.year - 1
+        end_year = today.year
+
+    return f"{start_year}-{end_year}"
 # =========================
 # RUN APP
 # =========================
